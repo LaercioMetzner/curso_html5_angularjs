@@ -1,0 +1,57 @@
+<html ng-app="pedidos">
+  <head>
+    <title>Pedidos Online</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
+    <script src='lib/angular.js'></script>
+    <script src='lib/angular-locale_pt-br.js'></script>
+    <script src='lib/bootstrap/bootstrap.js'></script>
+    <script src='js/app.js'></script>
+    <script src='js/controllers.js'></script>
+    <script src='js/values.js'></script>
+    <script src='js/services.js'></script>
+    <script src='js/constants.js'></script>
+  </head>
+  <body ng-controller="PedidosController">
+    <div class="main jumbotron">
+      <h2>{{nome}}</h2>
+    </div>
+    <div class="main jumbotron">
+      <h4>{{cardapioTitle}}</h4>
+      <input class="form-control" type="text" placeholder={{pesquisar}} ng-model="filtroCardapio" />
+      <table class="table table-striped">
+        <tr>
+          <th></th>
+          <th><a href="" ng-click="field = 'descricao'; reverse=!reverse ">Item</a></th>
+          <th><a href="" ng-click="field = 'preco'; reverse=!reverse">Valor</a></th>
+        </tr>
+        <tr ng-repeat="item in cardapio | filter:filtroCardapio | orderBy:field:reverse">
+          <td><button class="btn btn-primary" ng-click="fazerPedido(item)">+</button></td>
+          <td>{{item.descricao}}</td>
+          <td>{{item.preco | currency }}</td>
+        </tr>
+      </table>
+    </div>
+    <div  class="main jumbotron" ng-if="mostraPedido()">
+      <h4>{{pedidoTitle}}</h4>
+      <table class="table table-striped">
+        <tr>
+          <th></th>
+          <th>Item</th>
+          <th>Valor</th>        
+          <th>Qtde</th>
+          <th>Total</th>
+        </tr>
+	<tr ng-repeat="item in pedidos">
+          <td><button class="btn btn-danger" ng-click="removerItemPedido(item)">-</button></td>
+          <td>{{item.descricao}}</td>
+          <td>{{item.valor | currency }}</td>        
+          <td>{{item.qtde | number }}</td>
+          <td>{{item.total | currency }}</td>
+	</tr>        
+      </table>
+      <button class="btn btn-primary" ng-click="enviarPedido()">Enviar Pedido</button>
+    </div>
+  </body>
+</html>
